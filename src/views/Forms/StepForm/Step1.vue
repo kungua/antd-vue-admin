@@ -1,10 +1,10 @@
 <template>
-  <div>登陆</div>
+  <div>分布表单1</div>
 </template>
 
 <script>
 export default {
-  name: "Login"
+  name: "Step1"
 };
 </script>
 

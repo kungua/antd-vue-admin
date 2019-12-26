@@ -1,13 +1,13 @@
 <template>
   <div>
-    <p>Ant design vue pro</p>
+    分步表单挂载组件
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: "UserLayout"
+  name: "index"
 };
 </script>
 

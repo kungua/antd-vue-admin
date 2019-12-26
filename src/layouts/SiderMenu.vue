@@ -1,10 +1,10 @@
 <template>
-  <div>登陆</div>
+  <aside>我是菜单</aside>
 </template>
 
 <script>
 export default {
-  name: "Login"
+  name: "SiderMenu"
 };
 </script>
 

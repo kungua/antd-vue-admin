@@ -1,10 +1,10 @@
 <template>
-  <div>登陆</div>
+  <footer>我是尾部</footer>
 </template>
 
 <script>
 export default {
-  name: "Login"
+  name: "Footer"
 };
 </script>
 

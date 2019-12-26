@@ -1,10 +1,10 @@
 <template>
-  <div>登陆</div>
+  <header>我是头部</header>
 </template>
 
 <script>
 export default {
-  name: "Login"
+  name: "Header"
 };
 </script>
 

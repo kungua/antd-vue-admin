@@ -1,8 +1,14 @@
 <template>
-  <div>
+  <div :class="[`nav-theme-${navTheme}`, `nav-layout-${navLayout}`]">
     <a-layout id="components-layout-demo-side" style="min-height: 100vh">
-      <a-layout-sider :trigger="null" collapsible v-model="collapsed">
-        <div class="logo" />
+      <a-layout-sider
+        v-if="navLayout === 'left'"
+        :trigger="null"
+        :theme="navTheme"
+        collapsible
+        v-model="collapsed"
+      >
+        <div class="logo">Admin</div>
         <sider-menu />
       </a-layout-sider>
       <a-layout>
@@ -22,6 +28,7 @@
         </a-layout-footer>
       </a-layout>
     </a-layout>
+    <setting-drawer />
   </div>
 </template>
 
@@ -29,18 +36,28 @@
 import SiteHeader from "./SiteHeader";
 import SiderMenu from "./SiderMenu";
 import SiteFooter from "./SiteFooter";
+import SettingDrawer from "../components/SettingDrawer";
 
 export default {
   name: "BasicLayout",
   components: {
     SiteHeader,
     SiderMenu,
-    SiteFooter
+    SiteFooter,
+    SettingDrawer
   },
   data() {
     return {
       collapsed: false
     };
+  },
+  computed: {
+    navTheme() {
+      return this.$route.query.navTheme || "dark";
+    },
+    navLayout() {
+      return this.$route.query.navLayout || "left";
+    }
   }
 };
 </script>
@@ -53,6 +70,19 @@ export default {
 
   &:hover {
     background: #eee;
+  }
+}
+
+.logo {
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.nav-theme-dark {
+  .logo {
+    color: #fff;
   }
 }
 </style>

@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/user",
+    hideInMenu: true,
     // component: { render: h => h("router-view") },
     // component: RenderRouterView,
     component: () =>
@@ -47,13 +48,16 @@ const routes = [
         path: "/dashboard",
         name: "dashboard",
         component: { render: h => h("router-view") },
+        meta: { icon: "dashboard", title: "仪表盘" },
         children: [
           {
             path: "/dashboard/analysis",
+            name: "analysis",
             component: () =>
               import(
                 /* webpackChunkName: "dashboard" */ "../views/Dashboard/Analysis"
-              )
+              ),
+            meta: { title: "分析页" }
           }
         ]
       },
@@ -62,18 +66,22 @@ const routes = [
         path: "/form",
         name: "form",
         component: { render: h => h("router-view") },
+        meta: { icon: "form", title: "表单" },
         children: [
           {
             path: "/form/basic-form",
             name: "basicForm",
             component: () =>
-              import(/* webpackChunkName: "form" */ "../views/Forms/BasicForm")
+              import(/* webpackChunkName: "form" */ "../views/Forms/BasicForm"),
+            meta: { title: "基础表单" }
           },
           {
             path: "/form/step-form",
             name: "stepForm",
             component: () =>
               import(/* webpackChunkName: "form" */ "../views/Forms/StepForm"),
+            hideChildrenMenu: true,
+            meta: { title: "分步表单" },
             children: [
               {
                 path: "/form/step-form",
@@ -111,7 +119,8 @@ const routes = [
   },
   {
     path: "/*",
-    component: NotFound
+    component: NotFound,
+    hideInMenu: true
   }
 ];
 

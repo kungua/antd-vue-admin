@@ -1,24 +1,27 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import RenderRouterView from "../components/RenderRouterView";
+// import RenderRouterView from "../components/RenderRouterView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/user",
-    component: RenderRouterView,
+    component: { render: h => h("router-view") },
+    // component: RenderRouterView,
     children: [
       {
         path: "/user/login",
         name: "login",
-        component: () => import(/* webpackChunkName: "user" */ "../views/User/Register")
+        component: () =>
+          import(/* webpackChunkName: "user" */ "../views/User/Register")
       },
       {
         path: "/user/register",
         name: "register",
-        component: () => import(/* webpackChunkName: "user" */ "../views/User/Register")
-      },
+        component: () =>
+          import(/* webpackChunkName: "user" */ "../views/User/Register")
+      }
     ]
   }
 ];

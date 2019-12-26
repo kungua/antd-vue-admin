@@ -3,13 +3,14 @@
     <a-layout id="components-layout-demo-side" style="min-height: 100vh">
       <a-layout-sider
         v-if="navLayout === 'left'"
+        v-model="collapsed"
         :trigger="null"
         :theme="navTheme"
+        width="256px"
         collapsible
-        v-model="collapsed"
       >
         <div class="logo">Admin</div>
-        <sider-menu />
+        <sider-menu :theme="navTheme" />
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
@@ -67,7 +68,7 @@ export default {
   padding: 0 20px;
   line-height: 64px;
   font-size: 20px;
-
+  
   &:hover {
     background: #eee;
   }

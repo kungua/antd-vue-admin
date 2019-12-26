@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
+    <div id="nav">
+      <router-link to="/dashboard/analysis">dashboard</router-link>
+      <router-link to="/form/basic-form">basic-form</router-link>
+    </div>
     <router-view />
   </div>
 </template>

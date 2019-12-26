@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 // import RenderRouterView from "../components/RenderRouterView";
 import NotFound from "../views/404";
 
@@ -119,4 +121,12 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  NProgress.start();
+  next();
+});
+
+router.afterEach(() => {
+  NProgress.done();
+});
 export default router;

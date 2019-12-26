@@ -1,5 +1,7 @@
 <template>
-  <footer>我是尾部</footer>
+  <footer>
+    Ant Design ©2018 Created by Ant UED 我是尾部
+  </footer>
 </template>
 
 <script>

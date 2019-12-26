@@ -8,4 +8,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+header {
+  float: right;
+}
+</style>

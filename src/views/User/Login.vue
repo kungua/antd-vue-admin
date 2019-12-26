@@ -1,5 +1,5 @@
 <template>
-  <div>gua</div>
+  <div>登陆</div>
 </template>
 
 <script>

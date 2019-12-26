@@ -1,10 +1,13 @@
 <template>
-  <div>注册</div>
+  <div>
+    <p>Ant design vue pro</p>
+    <router-view/>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Register"
+  name: "UserLayout"
 };
 </script>
 

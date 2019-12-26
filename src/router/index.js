@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import RenderRouterView from "../components/RenderRouterView";
+import NotFound from "../views/404";
 
 Vue.use(VueRouter);
 
@@ -105,6 +106,10 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: "/*",
+    component: NotFound
   }
 ];
 

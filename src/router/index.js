@@ -80,7 +80,7 @@ const routes = [
             name: "stepForm",
             component: () =>
               import(/* webpackChunkName: "form" */ "../views/Forms/StepForm"),
-            hideChildrenMenu: true,
+            hideChildrenInMenu: true,
             meta: { title: "分步表单" },
             children: [
               {

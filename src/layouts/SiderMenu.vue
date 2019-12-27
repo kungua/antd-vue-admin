@@ -1,12 +1,6 @@
 <template>
   <div style="width: 256px">
-    <a-menu
-      :selectedKeys="selectedKeys"
-      :openKeys="openKeys"
-      :theme="theme"
-      :inlineCollapsed="collapsed"
-      mode="inline"
-    >
+    <a-menu :theme="theme" :inlineCollapsed="collapsed" mode="inline">
       <template v-for="item in menuData">
         <a-menu-item v-if="!item.children" :key="item.path">
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
@@ -36,13 +30,34 @@ export default {
     }
   },
   data() {
+    const menuData = this.getMenuData(this.$router.options.routes);
     return {
       collapsed: false,
-      list: []
+      list: [],
+      menuData
     };
   },
   methods: {
-    getMenuData() {}
+    getMenuData(routes) {
+      const menuData = [];
+      routes.forEach(route => {
+        if (route.name && !route.hideInMenu) {
+          const newItem = { ...route };
+          delete newItem.children;
+          if (route.children && !route.hideChildrenInMenu) {
+            newItem.children = this.getMenuData(route.children);
+          }
+          menuData.push(newItem);
+        } else if (
+          !route.hideInMenu &&
+          !route.hideChildrenInMenu &&
+          route.children
+        ) {
+          menuData.push(...this.getMenuData(route.children));
+        }
+      });
+      return menuData;
+    }
   }
 };
 </script>

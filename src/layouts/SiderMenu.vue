@@ -1,8 +1,18 @@
 <template>
   <div style="width: 256px">
-    <a-menu :theme="theme" :inlineCollapsed="collapsed" mode="inline">
+    <a-menu
+      :theme="theme"
+      :inlineCollapsed="collapsed"
+      :selectedKeys="selectedKeys"
+      :openKeys.sync="openKeys"
+      mode="inline"
+    >
       <template v-for="item in menuData">
-        <a-menu-item v-if="!item.children" :key="item.path">
+        <a-menu-item
+          v-if="!item.children"
+          :key="item.path"
+          @click="$router.push({ path: item.path })"
+        >
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </a-menu-item>
@@ -30,22 +40,45 @@ export default {
     }
   },
   data() {
+    this.selectedKeysMap = {};
+    this.openKeysMap = {};
     const menuData = this.getMenuData(this.$router.options.routes);
     return {
       collapsed: false,
       list: [],
-      menuData
+      menuData,
+      selectedKeys: this.selectedKeysMap[this.$route.path],
+      openKeys: this.collapsed ? [] : this.openKeysMap[this.$route.path]
     };
   },
+  watch: {
+    "$route.path": function(path) {
+      this.selectedKeys = this.selectedKeysMap[path];
+      this.openKeys = this.collapsed ? [] : this.openKeysMap[path];
+    }
+  },
   methods: {
-    getMenuData(routes) {
+    getMenuData(routes = [], parentKeys = [], selectedKeys) {
       const menuData = [];
       routes.forEach(route => {
         if (route.name && !route.hideInMenu) {
+          // 1
+          this.openKeysMap[route.path] = parentKeys;
+          this.selectedKeysMap[route.path] = [route.path || selectedKeys];
+
           const newItem = { ...route };
           delete newItem.children;
           if (route.children && !route.hideChildrenInMenu) {
-            newItem.children = this.getMenuData(route.children);
+            newItem.children = this.getMenuData(route.children, [
+              ...parentKeys,
+              route.path
+            ]);
+          } else {
+            this.getMenuData(
+              route.children,
+              selectedKeys ? parentKeys : [...parentKeys, route.path],
+              selectedKeys || route.path
+            );
           }
           menuData.push(newItem);
         } else if (
@@ -53,7 +86,9 @@ export default {
           !route.hideChildrenInMenu &&
           route.children
         ) {
-          menuData.push(...this.getMenuData(route.children));
+          menuData.push(
+            ...this.getMenuData(route.children, [...parentKeys, route.path])
+          );
         }
       });
       return menuData;

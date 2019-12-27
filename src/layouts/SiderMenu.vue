@@ -27,6 +27,7 @@
  * recommend SubMenu.vue https://github.com/vueComponent/ant-design-vue/blob/master/components/menu/demo/SubMenu.vue
  * SubMenu1.vue https://github.com/vueComponent/ant-design-vue/blob/master/components/menu/demo/SubMenu1.vue
  * */
+import { check } from "../utils/auth";
 import SubMenu from "./SubMenu";
 
 export default {
@@ -62,7 +63,10 @@ export default {
   methods: {
     getMenuData(routes = [], parentKeys = [], selectedKeys) {
       const menuData = [];
-      routes.forEach(route => {
+      for (let route of routes) {
+        if (route.meta && route.meta.authority && !check(route.meta.authority)) {
+          break;
+        }
         if (route.name && !route.hideInMenu) {
           // 1
           this.openKeysMap[route.path] = parentKeys;
@@ -92,7 +96,7 @@ export default {
             ...this.getMenuData(route.children, [...parentKeys, route.path])
           );
         }
-      });
+      }
       return menuData;
     }
   }

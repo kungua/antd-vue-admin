@@ -11,7 +11,7 @@
         <a-menu-item
           v-if="!item.children"
           :key="item.path"
-          @click="$router.push({ path: item.path })"
+          @click="$router.push({ path: item.path, query: $route.query })"
         >
           <a-icon v-if="item.meta.icon" :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
@@ -53,6 +53,8 @@ export default {
   },
   watch: {
     "$route.path": function(path) {
+      console.log(this.selectedKeysMap);
+      console.log(this.openKeysMap);
       this.selectedKeys = this.selectedKeysMap[path];
       this.openKeys = this.collapsed ? [] : this.openKeysMap[path];
     }
@@ -64,7 +66,7 @@ export default {
         if (route.name && !route.hideInMenu) {
           // 1
           this.openKeysMap[route.path] = parentKeys;
-          this.selectedKeysMap[route.path] = [route.path || selectedKeys];
+          this.selectedKeysMap[route.path] = [selectedKeys || route.path];
 
           const newItem = { ...route };
           delete newItem.children;

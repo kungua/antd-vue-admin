@@ -1,8 +1,8 @@
 <template>
   <div style="width: 256px">
     <a-menu
-      :defaultSelectedKeys="['1']"
-      :defaultOpenKeys="['2']"
+      :selectedKeys="selectedKeys"
+      :openKeys="openKeys"
       :theme="theme"
       :inlineCollapsed="collapsed"
       mode="inline"
@@ -36,25 +36,47 @@ export default {
     }
   },
   data() {
+    this.selectedKeysMap = {};
+    this.openKeysMap = {};
     const menuData = this.getMenuData(this.$router.options.routes);
     return {
       collapsed: false,
       list: [],
-      menuData
+      menuData,
+      selectedKeys: this.selectedKeysMap[this.$route.path],
+      openKeys: this.collapsed ? [] : this.openKeysMap[this.$route.path]
     };
   },
+  watch: {
+    "$route.path": path => {
+      this.selectedKeys = this.selectedKeysMap[path];
+      this.openKeys = this.collapsed ? [] : this.openKeysMap[path];
+    }
+  },
   methods: {
-    getMenuData(routes) {
+    getMenuData(routes = [], parentKeys = [], selectedKeys) {
       const menuData = [];
-      console.log(routes);
       routes.forEach(route => {
         if (route.name && !route.hideInMenu) {
-          console.log("路由自己有名字, 并且子路由也需要显示");
-          console.log(route);
-          const newItem = {...route};
+          // 1
+          this.openKeysMap[route.path] = parentKeys;
+          this.selectedKeysMap[route.path] = [route.path || selectedKeys];
+          // 2
+          const newItem = { ...route };
           delete newItem.children;
           if (route.children && !route.hideChildrenMenu) {
-            newItem.children = this.getMenuData(route.children);
+            // 3
+            newItem.children = this.getMenuData(route.children, [
+              ...parentKeys,
+              route.path
+            ]);
+          } else {
+            // 4
+            newItem.children = this.getMenuData(
+              route.children,
+              selectedKeys ? parentKeys : [...parentKeys, route.path],
+              selectedKeys || route.path
+            );
           }
           menuData.push(newItem);
         } else if (
@@ -62,11 +84,14 @@ export default {
           !route.hideChildrenMenu &&
           route.children
         ) {
-          console.log("路由自己没有名字, 但是子路由需要显示");
-          console.log(route);
-          menuData.push(...this.getMenuData(route.children));
+          // 1
+          menuData.push(
+            ...this.getMenuData(route.children, [...parentKeys, route.path])
+          );
         }
       });
+      console.log("selectedKeysMap");
+      console.log(this.selectedKeysMap);
       return menuData;
     }
   }

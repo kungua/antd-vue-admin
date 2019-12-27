@@ -68,7 +68,7 @@ export default {
   padding: 0 20px;
   line-height: 64px;
   font-size: 20px;
-  
+
   &:hover {
     background: #eee;
   }

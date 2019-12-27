@@ -16,7 +16,7 @@
   </a-sub-menu>
 </template>
 <script>
-import {Menu} from "ant-design-vue";
+import { Menu } from "ant-design-vue";
 
 export default {
   name: "SubMenu",

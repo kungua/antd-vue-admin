@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import NProgress from "nprogress";
 import findLast from "lodash/findLast";
 import { check, isLogin } from "../utils/auth";
+import { notification } from "ant-design-vue";
+
 import "nprogress/nprogress.css";
 // import RenderRouterView from "../components/RenderRouterView";
 import NotFound from "../views/404";
@@ -151,6 +153,10 @@ router.beforeEach((to, from, next) => {
         path: "/user/login"
       });
     } else if (to.path !== "403") {
+      notification.error({
+        message: "403",
+        description: "您没有这个功能的权限"
+      });
       next({
         path: "/403"
       });

@@ -5,8 +5,10 @@ import store from "./store";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.less";
 import Authorized from "./components/Authorized";
+import Auth from "./directives/auth";
 
 Vue.use(Antd);
+Vue.use(Auth);
 
 Vue.component("Authorized", Authorized);
 

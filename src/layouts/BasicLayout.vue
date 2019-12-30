@@ -29,7 +29,9 @@
         </a-layout-footer>
       </a-layout>
     </a-layout>
-    <setting-drawer />
+    <authorized :authority="['admin']">
+      <setting-drawer />
+    </authorized>
   </div>
 </template>
 
